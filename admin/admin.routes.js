@@ -7,7 +7,7 @@ import { createAdmin, getAdmin, getAdminById, updateAdmin, deleteAdmin } from ".
 import adminRegisterValidator from "./admin.validator.js";
 
 const limiter = rateLimit({
-    windowMs: 60*1000,
+    windowMs: 60*1000,  // 1 minute interval between requests
     limit:5,
     message: "Too many requests from this IP, please try again after 1 minute"
 })
