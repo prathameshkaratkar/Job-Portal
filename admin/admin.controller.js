@@ -1,18 +1,26 @@
 import Admin from "./admin.schema.js";
 
+import bcrypt from "bcrypt";
+
 
 //Controller for handling the CRUD operations on admin records.
 
 export const createAdmin = async (req,res) => {
-    try{
+   
         const newAdmin = new Admin({ ...req.body});
-        const savedAdmin = await newAdmin.save();
-        res.status(201).json(savedAdmin);
-    } catch(err) {
-        res.status(400).json({
-            message:err.message
-        })
-    }
+        newAdmin.password = await bcrypt.hash(req.body.password, 10);
+        try{
+            const savedAdmin = await newAdmin.save();
+            savedAdmin.password = undefined;
+            res.status(201).json(savedAdmin);
+        } catch(err) {
+            res.status(400).json({
+                message:err.message
+            })
+             
+        }
+        
+    
 }
 
 export const getAdmin = async (req,res) => {
